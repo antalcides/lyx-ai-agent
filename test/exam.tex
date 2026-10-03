@@ -1,0 +1,114 @@
+%% LyX 2.5.1 created this file.  For more info, see https://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,headheight=14pt,footskip=1cm}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newlength{\lyxlabelwidth}      % auxiliary length 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% Better than enumerate, more flexible
+%\usepackage{enumerate}
+\newcommand{\encabezadoexamen}{
+    \begin{center}
+        \textbf{\Large Name of the Institution} \\
+        \vspace{0.5cm}
+        \textbf{\Large Name of the Subject} \\
+        \vspace{0.3cm}
+        \textbf{\Large PARTIAL / FINAL EXAM} \\
+        \vspace{0.2cm}
+        \rule{\textwidth}{0.8pt}
+        \end{center}
+        \vspace{0.5cm}
+        \begin{flushleft}
+        \textbf{Student Name:} \hrulefill \\
+        \vspace{0.2cm}
+        \textbf{Date:} \hrulefill \quad \textbf{Group:} \hrulefill \\
+        \vspace{0.2cm}
+        \textbf{Total Score:} \hrulefill \quad \textbf{Score Obtained:} \hrulefill \\
+        \end{flushleft}
+        \vspace{0.5cm}
+        \rule{\textwidth}{0.4pt}
+        \vspace{0.5cm}
+    }
+% Solution: use \item[] for the introductory text (without label)
+\newenvironment{pregunta}[1]{%
+    \vspace{0.5cm}%
+    \noindent\textbf{Question #1}%
+    \par%
+    \begin{enumerate}[label=\alph*)]%
+}{%
+    \end{enumerate}%
+    \vspace{0.5cm}%
+}
+
+\makeatother
+
+\begin{document}
+\encabezadoexamen
+
+\section*{General Instructions}
+\begin{itemize}[label=$\bullet$]
+\item Read all questions carefully before answering. 
+\item Use blue or black pen. Pencil answers are not accepted. 
+\item The duration of the exam is \textbf{90 minutes}. 
+\item The score for each question is indicated at the beginning of the question. 
+\item Clarity, order, and justification of the answers will be valued. 
+\end{itemize}
+\vspace{1cm}
+
+\begin{pregunta}{1 (2 points)} 
+
+\item[] Answer the following questions on topic X.
+% Use \item[] for unnumbered text
+
+\item Explain briefly the concept of \textit{Fundamental Theorem of
+Calculus}. 
+
+\item Mention two practical applications of derivatives in
+engineering. \end{pregunta}
+
+\begin{pregunta}{2 (3 points)} 
+
+\item[] Solve the following linear algebra problem. 
+
+\item Calculate the inverse of the matrix $A=\begin{pmatrix}1 & 2\\
+3 & 4
+\end{pmatrix}$. 
+
+\item Determine whether the vectors $v_{1}=(1,0,1)$, $v_{2}=(0,1,1)$
+and $v_{3}=(1,1,0)$ are linearly independent. \end{pregunta}
+
+\begin{pregunta}{3 (2.5 points)} 
+
+\item[] Prove the following proposition. 
+
+\item Prove that if a function $f(x)$ is continuous on a closed
+interval $[a,b]$ and differentiable on the open interval $(a,b)$, then
+there exists at least one point $c\in(a,b)$ such that $f'(c)=\frac{f(b)-f(a)}{b-a}$.
+(Mean Value Theorem) \end{pregunta}
+
+\begin{pregunta}{4 (2.5 points)} 
+
+\item[] Application problem. 
+
+\item A company produces $Q$ units of a product, where the total
+cost of production is given by the function $C(Q)=0.01Q^{2}+5Q+100$.
+If the selling price per unit is \$20, determine the quantity
+of units the company should produce to maximize its profit.
+\end{pregunta}
+
+\vspace{2cm}
+
+\begin{center}
+\textit{Good luck!} 
+\par\end{center}
+\end{document}

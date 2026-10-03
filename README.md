@@ -14,6 +14,10 @@ Supports **7 AI providers** — cloud and local — with a dark-themed GUI.
 | 📑 **Template**         | Start a new document from an existing one — the original is never touched     |
 | 🔧 **Correct**          | Fix syntax errors, compilation issues and LaTeX bugs                          |
 | 🌐 **Translate**        | Translate documents preserving all LaTeX markup                               |
+| 📥 **.tex -> .lyx**     | Convert a `.tex` file to `.lyx` using tex2lyx (LyX 2.5+)                    |
+| 📤 **.lyx -> .tex**     | Export a `.lyx` file back to `.tex` using LyX's built-in exporter            |
+| 🔨 **Compile**          | Compile a `.lyx` file to PDF on Windows and Linux (with pdflatex fallback)   |
+| 🚀 **Open LyX**         | Launch the LyX GUI with the corrected file loaded                            |
 | 💾 **Safe save**        | Timestamped `.bak` backup + atomic write before overwriting anything          |
 | 🔄 **Streaming**        | See the AI response appear token by token                                     |
 | 🧪 **Test**             | One-click connectivity check per provider                                     |
@@ -56,6 +60,50 @@ Only the code block is saved. If the AI replies with an explanation followed by
 a ```latex block, the prose is discarded and just the document is written. This
 is what makes “edit in place” safe: no markdown fences or commentary ever end up
 inside your `.tex` file.
+
+---
+
+## LyX Tools
+
+The toolbar below the document bar provides five LyX-specific operations:
+
+| Button            | What it does                                                                   |
+| ----------------- | ----------------------------------------------------------------------------- |
+| 📥 **.tex -> .lyx** | Pick a `.tex` file, convert it to `.lyx` using `tex2lyx`, and load the result into the editor. |
+| 📤 **.lyx -> .tex** | Export a `.lyx` file to `.tex` via `lyx --export latex`. |
+| 🔧 **Correct .lyx** | Load a `.lyx` (or `.tex`) file, switch to **Correct** mode, and let the AI fix errors. |
+| 🔨 **Compile**      | Compile the current `.lyx` file to PDF. Works on **Windows and Linux**. Falls back to `pdflatex` when LyX's own export fails. |
+| 🚀 **Open LyX**     | Launch the LyX GUI with the current `.lyx` file loaded. |
+
+### How compilation works
+
+The compile button tries two strategies:
+
+1. **`lyx --export pdf`** — the native LyX exporter. Works when LyX is
+   properly configured with a LaTeX distribution.
+2. **pdflatex fallback** — if the native export fails (e.g. LyX's
+   `path_prefix` points to a stale TeXLive directory), the app exports
+   `.lyx` -> `.tex` and then runs `pdflatex` directly. This is faster and
+   more robust.
+
+### Configuring LyX and LaTeX paths
+
+Under **⚙ Settings -> 🔧 LyX**, you can set:
+
+- **LyX bin directory** — e.g. `C:\Program Files\LyX 2.5\bin`
+- **LaTeX bin directory** — e.g. `C:\texlive\2026\bin\windows`
+
+When left empty, the app auto-detects LyX and pdflatex by scanning:
+common Windows install locations, the Linux PATH, and `shutil.which()`.
+
+### Cross-platform support
+
+The LyX tools work on both **Windows** and **Linux**:
+
+- On Windows, tex2lyx (Qt6) keeps its event loop alive after conversion.
+  The app launches it, polls for the output file, and terminates the
+  process once the file is stable.
+- On Linux, tex2lyx exits cleanly after conversion.
 
 ---
 
@@ -197,9 +245,10 @@ Under **⚙ Settings → 📄 Documents**:
 lyx-ai-agent/
 ├── main.py                  # Entry point (+ --diagnose)
 ├── app/
-│   ├── gui.py               # Main Tkinter GUI
+│   ├── gui.py               # Main Tkinter GUI (incl. LyX tools toolbar)
 │   ├── config.py            # Settings + API key sanitising
 │   ├── utils.py             # Prompts, document extraction, safe file I/O
+│   ├── lyx_tools.py         # LyX integration: convert, compile, open
 │   └── providers/           # One file per AI provider
 │       ├── base.py          # AIProvider ABC + model preference
 │       ├── openai_provider.py
@@ -210,7 +259,8 @@ lyx-ai-agent/
 │       ├── openrouter_provider.py
 │       └── omniroute_provider.py
 ├── tests/
-│   └── test_document_ops.py # Tests for extraction, keys and file safety
+│   ├── test_document_ops.py # Tests for extraction, keys and file safety
+│   └── test_lyx_tools.py    # Tests for LyX conversion, compilation, path detection
 ├── assets/
 │   ├── logo-lyx-ai.png
 │   └── logo-lyx-ai.ico
@@ -227,6 +277,8 @@ lyx-ai-agent/
 
 - Python **3.10+**
 - `tkinter` (included in most Python installations; on Linux: `sudo apt install python3-tk`)
+- [LyX 2.5+](https://www.lyx.org/) for the LyX conversion / compilation tools
+- A LaTeX distribution (TeXLive or MiKTeX) for PDF compilation
 - Internet connection for cloud providers
 
 ---
