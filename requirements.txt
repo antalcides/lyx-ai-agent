@@ -1,0 +1,16 @@
+# LyX AI Agent — Python dependencies
+# Install with: pip install -r requirements.txt
+
+# Core AI providers
+openai>=1.30
+anthropic>=0.30
+google-generativeai>=0.7
+
+# HTTP client (used by Ollama, OpenRouter, OmniRoute)
+httpx>=0.27
+
+# Image handling (logo display)
+pillow>=10.0
+
+# Optional: faster tokenizer estimate (not required)
+# tiktoken>=0.7
